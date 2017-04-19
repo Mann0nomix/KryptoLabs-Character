@@ -8,7 +8,7 @@ public class TextRotator : MonoBehaviour
 
     void Update()
     {
-        Vector3 relativePos = ((target.position + new Vector3(0, 2.0f, 0f)) - transform.position);
+        Vector3 relativePos = ((target.position + new Vector3(0, 6.0f, 0f)) - transform.position);
         Quaternion rotation = Quaternion.LookRotation(relativePos);
 
         Quaternion current = transform.localRotation;
