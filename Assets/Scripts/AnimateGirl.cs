@@ -9,8 +9,7 @@ public class AnimateGirl : MonoBehaviour {
     public GameObject magicLeft;
     public GameObject magicRight;
     public GameObject letter;
-    public GameObject movie;
-    public char[] letters;
+    private char[] letters;
 
     private Animator anim;
     private bool landed = false;

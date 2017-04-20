@@ -27,7 +27,7 @@ public class LetterClick : MonoBehaviour {
 
 		if (!movie.activeInHierarchy) { //movie only loads once when it does not exist in scene
             AnimateGirl.VideoSetup(); //Dismiss Letters when movie starts
-			Instantiate(movie);
+            Handheld.PlayFullScreenMovie("billyimback.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
         }
     }
 }
