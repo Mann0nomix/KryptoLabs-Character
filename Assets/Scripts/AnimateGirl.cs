@@ -51,7 +51,6 @@ public class AnimateGirl : MonoBehaviour {
     IEnumerator JumpCoroutine(Vector3 target)
     {
         anim.Play("JUMP01B");
-        float timeToStart = Time.time;
         float trajectoryRate = 0.25f;
 
         while (Vector3.Distance(transform.position, target) > 0.1f) {
@@ -68,7 +67,18 @@ public class AnimateGirl : MonoBehaviour {
         
         yield return new WaitForSeconds(1f);
         //Start Magic when the character is grounded
+
         StartMagic();
         anim.Play("WIN00");
+
+        yield return new WaitForSeconds(.25f);
+
+        Vector3 magicLeftTarget = new Vector3(-2, 6, 0);
+        Vector3 magicRightTarget = new Vector3(2, 6, 0);
+        while (Vector3.Distance(magicLeft.transform.position, magicLeftTarget) > 0) { //only need to check one side
+            magicLeft.transform.position = Vector3.Lerp(magicLeft.transform.position, magicLeftTarget, Time.deltaTime * 5);
+            magicRight.transform.position = Vector3.Lerp(magicRight.transform.position, magicRightTarget, Time.deltaTime * 5);
+            yield return null;
+        }
     }
 }
