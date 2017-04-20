@@ -64,6 +64,8 @@ public class AnimateGirl : MonoBehaviour {
     {
         magicLeft.SetActive(false);
         magicRight.SetActive(false);
+		//disable girl for video
+		gameObject.SetActive (false);
     }
 
     void DespawnLetters()
@@ -90,7 +92,7 @@ public class AnimateGirl : MonoBehaviour {
         anim.Play("JUMP01B");
         float trajectoryRate = 0.25f;
 
-        while (Vector3.Distance(transform.position, target) > 0.1f) {
+        while (Vector3.Distance(transform.position, target) > 0.2f) {
             Vector3 currentPos = transform.position;
             currentPos.y += trajectoryRate;
             if(currentPos.y > 4.25) {

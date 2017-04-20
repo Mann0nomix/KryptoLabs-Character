@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LetterClick : MonoBehaviour {
-    public GameObject movie;
-
+	public GameObject movie;
     // NOTE: You need a collider in order to use raycast on character
     void Update()
     {
@@ -25,9 +24,10 @@ public class LetterClick : MonoBehaviour {
 
     void StartVideo()
     {
-        if (!movie.activeInHierarchy) { //movie only loads once when it does not exist in scene
+
+		if (!movie.activeInHierarchy) { //movie only loads once when it does not exist in scene
             AnimateGirl.VideoSetup(); //Dismiss Letters when movie starts
-            movie.SetActive(true);
+			Instantiate(movie);
         }
     }
 }
