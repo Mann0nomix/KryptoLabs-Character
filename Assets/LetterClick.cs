@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LetterClick : MonoBehaviour {
     public GameObject movie;
-
+    
     // NOTE: You need a collider in order to use raycast on character
     void Update()
     {

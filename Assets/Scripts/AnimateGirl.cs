@@ -1,22 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class AnimateGirl : MonoBehaviour {
     public GameObject magicLeft;
     public GameObject magicRight;
     public GameObject letter;
     public GameObject movie;
+    public char[] letters;
 
     private Animator anim;
+    private bool landed = false;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        letters = new char[26] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     }
     // NOTE: You need a collider in order to use raycast on character
     void Update () {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !landed) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -36,8 +40,9 @@ public class AnimateGirl : MonoBehaviour {
         if (!magicLeft.activeInHierarchy) {
             magicLeft.SetActive(true);
             magicRight.SetActive(true);
-            letter.SetActive(true);
         }
+
+        StartCoroutine(SpawnLetters());
     }
 
     void StartJump()
@@ -46,6 +51,19 @@ public class AnimateGirl : MonoBehaviour {
         StartCoroutine(JumpCoroutine(target));
 
         //transform.Translate(transform.position + new Vector3(0f, -4.4f, 4.0f));
+    }
+
+    IEnumerator SpawnLetters()
+    {
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < 26; i++) {
+            GameObject current = Instantiate(letter);
+            if (current.GetComponent<TextMesh>() != null) {
+                current.GetComponent<TextMesh>().text = letters[i].ToString().ToUpper();
+            }
+            yield return new WaitForSeconds(.15f);
+        }
     }
 
     IEnumerator JumpCoroutine(Vector3 target)
@@ -64,7 +82,8 @@ public class AnimateGirl : MonoBehaviour {
         }
         
         Debug.Log("Landed");
-        
+        landed = true;
+
         yield return new WaitForSeconds(1f);
         //Start Magic when the character is grounded
 

@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class TextRotator : MonoBehaviour
 {
-    public Transform target;
+    public GameObject ob;
+    private Transform target;
 
+    private void Start()
+    {
+        target = ob.transform;
+    }
     void Update()
     {
-        Vector3 relativePos = ((target.position + new Vector3(0, 6.0f, 0f)) - transform.position);
+        Vector3 relativePos = ((target.position + new Vector3(0, 5.0f, 0f)) - transform.position);
         Quaternion rotation = Quaternion.LookRotation(relativePos);
 
         Quaternion current = transform.localRotation;
