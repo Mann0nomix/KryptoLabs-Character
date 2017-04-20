@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
 
 public class AnimateGirl : MonoBehaviour {
     public GameObject magicLeft;
@@ -13,10 +15,15 @@ public class AnimateGirl : MonoBehaviour {
     private Animator anim;
     private bool landed = false;
 
+    public static Action VideoSetup;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
         letters = new char[26] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        //demonstrating use of deferred callback delegate / action
+        VideoSetup += DespawnLetters;
+        VideoSetup += DisableMagic;
     }
     // NOTE: You need a collider in order to use raycast on character
     void Update () {
@@ -53,6 +60,18 @@ public class AnimateGirl : MonoBehaviour {
         //transform.Translate(transform.position + new Vector3(0f, -4.4f, 4.0f));
     }
 
+    void DisableMagic()
+    {
+        magicLeft.SetActive(false);
+        magicRight.SetActive(false);
+    }
+
+    void DespawnLetters()
+    {
+        foreach(GameObject l in GameObject.FindGameObjectsWithTag("Letter")) {
+            Destroy(l);
+        }
+    }
     IEnumerator SpawnLetters()
     {
         yield return new WaitForSeconds(1f);
@@ -99,5 +118,11 @@ public class AnimateGirl : MonoBehaviour {
             magicRight.transform.position = Vector3.Lerp(magicRight.transform.position, magicRightTarget, Time.deltaTime * 5);
             yield return null;
         }
+    }
+
+    private void OnDestroy()
+    {
+        VideoSetup -= DespawnLetters;
+        VideoSetup -= DisableMagic;
     }
 }
