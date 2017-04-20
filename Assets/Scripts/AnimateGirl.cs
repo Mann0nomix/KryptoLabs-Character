@@ -42,28 +42,28 @@ public class AnimateGirl : MonoBehaviour {
 
     void StartJump()
     {
-        Vector3 target = new Vector3(0f, 5.2f, -3.5f);
-        Vector3 target2 = new Vector3(0f, -0.4f, -4.0f);
-        StartCoroutine(JumpCoroutine(target, target2));
+        Vector3 target = new Vector3(0f, -0.4f, -4.0f);
+        StartCoroutine(JumpCoroutine(target));
 
         //transform.Translate(transform.position + new Vector3(0f, -4.4f, 4.0f));
     }
 
-    IEnumerator JumpCoroutine(Vector3 target, Vector3 target2)
+    IEnumerator JumpCoroutine(Vector3 target)
     {
         anim.Play("JUMP01B");
         float timeToStart = Time.time;
-        while (Vector3.Distance(transform.position, target) > .5f) {
-            transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 3);
+        float trajectoryRate = 0.25f;
 
+        while (Vector3.Distance(transform.position, target) > 0.1f) {
+            Vector3 currentPos = transform.position;
+            currentPos.y += trajectoryRate;
+            if(currentPos.y > 4.25) {
+                trajectoryRate = -0.05f;
+            }
+            transform.position = Vector3.Lerp(currentPos, target, Time.deltaTime * 3);
             yield return null;
         }
-
-        timeToStart = Time.time;
-        while (Vector3.Distance(transform.position, target2) > 0.01) {
-            transform.position = Vector3.Lerp(transform.position, target2, Time.deltaTime * 2);
-            yield return null;
-        }
+        
         Debug.Log("Landed");
         
         yield return new WaitForSeconds(1f);
